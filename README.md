@@ -15,6 +15,8 @@ just use `docker build -t go-docker-image-exist:latest .`
 
 ## Usage
 
+### Google Container Registry
+
 ```go
 ./go-docker-image-exist -registryURL="https://us.gcr.io" -username='_token' -password=$(gcloud auth print-access-token) -logLevel=debug  -project=kube00-xxx -image=caddy/caddy -tag 0.11.0
 ```
@@ -30,6 +32,15 @@ just use `docker build -t go-docker-image-exist:latest .`
 - logLevel: one of debug, info, warning, error. When using `debug` you will also get the HTTP calls to the Registry.
 - image: full name of the remote image, including directories
 - tag: the tag to search for, defaults to `latest`
+
+### Private (OnPrem) Gitlab registry
+
+Gitlab use oAuth/JWT to create a token that can then be used to request the registry. All this is taken car of by https://github.com/heroku/docker-registry-client
+You have to create a `Deploy Token` in the Gitlab Settings -> Repository -> Deploy Tokens, then :
+
+```bash
+./go-docker-image-exist -username='my_deploy_token' -password='my_token_password' -logLevel=debug  -registryURL='https://your_registry_url:4567' -image=my/git_repo/my_image/name -tag v1.2.3
+```
 
 ## example
 
